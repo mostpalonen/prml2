@@ -8,7 +8,10 @@ from datetime import datetime
 
 
 # KAGGLE SUBMISSION TEAM NAME: mostpalonen
-
+#
+# Takes advantage of gridsearch and cross validation to
+# optimize the n_neighbors. For my training, n_neighbors=9
+# leads to the best results.
 
 def unpickle(file):
     """
