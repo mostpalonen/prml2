@@ -46,17 +46,17 @@ def main():
     print(f"\nExecution started at {datetime.now()}")
 
     # Dictionary of all the values used for finding optimal value for n_neighbors
-    param_grid = {'n_neighbors': np.arange(3, 11)}
+    param_grid = {'n_neighbors': np.arange(3, 5)}
 
     # Load data
     x_tr, x_val, y_tr = loadData()
     print(f"Data loaded")
 
     # Initialize nearest neighbour classifier
-    clf = neighbors.KNeighborsClassifier()
+    clf = neighbors.KNeighborsClassifier(n_jobs=6)
 
     # Use gridsearch to test all values for n_neighbors
-    clf_gscv = GridSearchCV(clf, param_grid, cv=5, verbose=2)
+    clf_gscv = GridSearchCV(clf, param_grid, cv=3, verbose=2)
 
     # Fit model to data
     clf_gscv.fit(x_tr, y_tr)
