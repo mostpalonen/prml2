@@ -9,18 +9,11 @@ def main():
     y_n = y + np.sqrt(0.5) * np.random.randn(y.size)
 
     det = np.convolve(y_n, np.flip(y), 'same')
-    #det = np.convolve(y_n, y, 'same')
 
     plot(y, y_n, det)
 
 
 def plot(y, y_n, d):
-    """
-    Plot the signals
-    i) the noise free signal x[n], 
-    ii) noisy x[n] + w[n] and 
-    iii) detector output
-    """
     fig, axs = plt.subplots(3, 1)
 
     axs[0].plot(y)
