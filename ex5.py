@@ -6,7 +6,7 @@ from PIL import Image
 
 def main():
 
-    # Task1: Load data
+    # Task1: Load and normalize data
     x_tr, x_tst, y_tr, y_tst = loadData()
     x_tr, x_tst = x_tr / 255.0, x_tst / 255.0
 
@@ -31,7 +31,7 @@ def main():
         if pred <= 0.5:
             preds[i] = 0
 
-    print(f"Prediction accuracy: {accuracy(y_tst, preds)}")
+    print(f"\nPrediction accuracy: {accuracy(y_tst, preds)}")
     model.evaluate(x_tst,  y_tst, verbose=2)
 
 def loadData():
