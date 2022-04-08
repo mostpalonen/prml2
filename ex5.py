@@ -31,7 +31,7 @@ def main():
         if pred <= 0.5:
             preds[i] = 0
 
-    print(f"Accuracy: {accuracy(y_tst, preds)}")
+    print(f"Prediction accuracy: {accuracy(y_tst, preds)}")
     model.evaluate(x_tst,  y_tst, verbose=2)
 
 def loadData():
