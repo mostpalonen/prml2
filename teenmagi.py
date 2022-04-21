@@ -28,33 +28,30 @@ def main():
     model.add(tf.keras.layers.Conv2D(64, 1, padding='same', activation='relu'))
     model.add(tf.keras.layers.MaxPooling2D())
     model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dropout(0.2))
     model.add(tf.keras.layers.Dense(128, activation='relu'))
     model.add(tf.keras.layers.Dense(num_classes))
 
     # Compile the model
     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
+    model.compile(optimizer='Adam', loss=loss, metrics=['accuracy'])
     model.summary()
     
     # Train the model
     callback = tf.keras.callbacks.EarlyStopping(monitor='loss', min_delta=0, patience=3, verbose=0, mode='auto', baseline=None, restore_best_weights=True)
-    model.fit(x_tr, y_tr, epochs=1, callbacks=[callback])
+    model.fit(x_tr, y_tr, epochs=20, callbacks=[callback])
 
     # Do predictions for test and validation data
     model.evaluate(x_tst,  y_tst, verbose=2)
     y_val = model.predict(x_val)
-    print(f"Predictions done")
 
     # Write CSV of predictions
     with open("data/teenmagi/NN_predictions.csv", "w", newline='') as f:
         writer = csv.writer(f)
         writer.writerow(["Id", "Class"])
-        i = 1
-        for item in y_val:
-            writer.writerow([i, item])
-            i += 1
-    print(f"CSV written \n")
+        for i, item in enumerate(y_val):
+            writer.writerow([i+1, np.argmax(item)])
+
+    print(f"\nExecution done at {datetime.now()}")
 
 
 def unpickle(file):
@@ -82,7 +79,7 @@ def loadData():
         x_val[i] = x_val[i][:,:,1]
     
     x_tr, x_tst, y_tr, y_tst = train_test_split(x_tr, y_tr, test_size=0.2, random_state=42)
-    x_tr, x_tst, y_tr, y_tst = np.array(x_tr, np.float16), np.array(x_tst, np.float16), np.array(y_tr, np.float16), np.array(y_tst, np.float16)
+    x_tr, x_tst, y_tr, y_tst, x_val = np.array(x_tr, np.uint8), np.array(x_tst, np.uint8), np.array(y_tr, np.uint8), np.array(y_tst, np.uint8), np.array(x_val, np.uint8)
     return x_tr, x_tst, y_tr, y_tst, x_val
 
 if __name__ == '__main__':
